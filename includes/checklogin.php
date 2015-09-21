@@ -1,6 +1,7 @@
 <?php
 require "config.php";
 require "functions.php";
+session_start();
 
 if(!isset($_POST['username']) || !isset($_POST['password'])){
 	header("Location: ../login.php?error=1");
