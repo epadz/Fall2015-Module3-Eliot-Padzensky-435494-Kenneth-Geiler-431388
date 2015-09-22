@@ -1,4 +1,5 @@
 <?php
+require 'includes/config.php';
 session_start();
 if(!isset($_SESSION['username'])){
 	header("Location: login.php?error=4");
@@ -20,6 +21,8 @@ if(!isset($_SESSION['username'])){
 
 ?>
 <br>
+<a href="includes/logout.php">logout</a>
+<br>
 <form action="includes/post_story.php" method="post">
   title:<br>
   <input type="text" name="title">
@@ -33,6 +36,30 @@ if(!isset($_SESSION['username'])){
   <input type="submit" value="post!">
 </form>
 
-<a href="includes/logout.php">logout</a>
+<?php 
+$stmt = $mysqli->prepare("select title, url, poster_id, commentary from stories");
+if(!$stmt){
+	printf("Query Prep Failed: %s\n", $mysqli->error);
+	exit;
+}
+ 
+ 
+ 
+$stmt->execute();
+ 
+$result = $stmt->get_result();
+ 
+echo "<ul>\n";
+while($row = $result->fetch_assoc()){
+	printf("\t<li>%s %s</li>\n",
+		htmlspecialchars( $row["title"] ),
+		htmlspecialchars( $row["url"] )
+	);
+}
+echo "</ul>\n";
+ 
+$stmt->close();
+?>
+
 </body>
-</html>
+<html>
