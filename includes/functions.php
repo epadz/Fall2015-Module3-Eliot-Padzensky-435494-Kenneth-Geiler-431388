@@ -53,4 +53,11 @@ function checkLogin($username, $password){
 	}
 	return NULL;
 }
+
+//logs out
+function logout(){
+	session_start();
+	session_unset(); 
+	session_destroy();
+}
 ?>
