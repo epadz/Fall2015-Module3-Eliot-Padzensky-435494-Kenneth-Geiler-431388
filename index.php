@@ -20,6 +20,19 @@ if(!isset($_SESSION['username'])){
 
 ?>
 <br>
+<form action="includes/post_story.php" method="post">
+  title:<br>
+  <input type="text" name="title">
+  <br>
+  url:<br>
+  <input type="text" name="url">
+  <br>
+  commentary: <br>
+  <input type="text" name="commentary">
+  <input type="hidden" name="poster_id">
+  <input type="submit" value="post!">
+</form>
+
 <a href="includes/logout.php">logout</a>
 </body>
 </html>
