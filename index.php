@@ -19,6 +19,7 @@ if(!isset($_SESSION['username'])){
 	echo $_SESSION['lname'] . '<br />';
 
 ?>
-
+<br>
+<a href="includes/logout.php">logout</a>
 </body>
 </html>

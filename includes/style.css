@@ -1,0 +1,70 @@
+/* CSS Document */
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,100,700);
+body{
+	background-image:url(background.png);
+	background-repeat:repeat;
+	font-family:"Roboto", sans-serif;
+	position:relative;
+	padding:0;
+	margin:0;
+}
+a{
+	text-decoration:none;
+	font-family:"Roboto", sans-serif;
+}
+.loginBox{
+	background-color:#9B87B7;
+	width:400px;
+	height:500px;
+	position:fixed;
+	left:50%;
+	top:100px;
+	margin:0 0 0 -200px;
+	border-radius:5px;
+	padding:10px;
+}
+.loginBox h1{
+	width:400px;
+	text-align:center;
+	margin:0;
+	padding:0;
+}
+.loginBox table{
+	width:350px;
+}
+.loginBox table tr{
+	height:40px;
+	width:350px;
+}
+.loginBox table tr td{
+	height:40px;
+}
+.errorRow{
+	height:15px !important;
+	color:#FF0000;
+}
+.errorRow td{
+	height:15px !important;
+}
+input{
+	width:150px;
+	height:30px;
+	border-radius:5px;
+	border:1px solid #666;
+	line-height:30px;
+	font-size:20px;
+}
+#logInButton, #regButton{
+	width:100px;
+	height:30px;
+	line-height:30px;
+	background-color:#428bca;
+	color:#FFFFFF;
+	border-radius:3px;
+	cursor:pointer;
+	text-align:center;
+	font-weight:400;
+	position:relative;
+	float:left;
+	margin:10px 15px 0 0;
+}
