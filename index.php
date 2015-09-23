@@ -44,7 +44,6 @@ if(!$stmt){
 }
  
  
- 
 $stmt->execute();
  
 $result = $stmt->get_result();
@@ -53,8 +52,12 @@ echo "<ul>\n";
 while($row = $result->fetch_assoc()){
 	printf("\t<li>%s %s</li>\n",
 		htmlspecialchars( $row["title"] ),
-		htmlspecialchars( $row["url"] )
+		htmlspecialchars( $row["url"] ),
+		htmlspecialchars( $row["commentary"] )
 	);
+	$pid = $row['poster_id'];
+	echo '<a href="story.php?id='. $pid .'" >Check out the article</a>';
+
 }
 echo "</ul>\n";
  
