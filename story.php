@@ -9,8 +9,7 @@ if(!isset($_GET['id'])){
 	header("Location: index.php");
 }
 $story_ID = $_GET['id'];
-
-
+$comments = getComments($story_ID);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -20,5 +19,11 @@ $story_ID = $_GET['id'];
 </head>
 
 <body>
+<?php
+	foreach($comments as $col => $val){
+		echo 'User ' . $val['user_name'] . ' says:<br />';
+		echo '<p>'. $val['comment'] . '</p><br />';
+	}
+?>
 </body>
 </html>

@@ -65,7 +65,7 @@ function logout(){
 //returns an array of comments
 function getComments($id){
 	global $mysqli;
-	$stmt = $mysqli->prepare("select comment_id, commenter_id, comments.story_id, comment, stories.title, stories.url, stories.poster_id, stories.commentary, users.user_id, users.user_name, users.first_name, users.last_name from comments join stories on (comments.story_id = stories.story_id) join users on (comments.commenter_id = users.user_id) where comments.story_id = ?");
+	$stmt = $mysqli->prepare("select comment_id, commenter_id, comments.story_id, comment, users.user_id, users.user_name, users.first_name, users.last_name from comments join users on (comments.commenter_id = users.user_id) where comments.story_id = ? order by comment_id asc");
 	if(!$stmt){
 		printf("Query Prep Failed: %s\n", $mysqli->error);
 		exit;
