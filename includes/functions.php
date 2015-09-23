@@ -1,6 +1,5 @@
 <?php
 require_once "config.php";
-
 //echo isUser('userGuy');
 //checks whether a given username exists
 //$u is username
@@ -59,5 +58,27 @@ function logout(){
 	session_start();
 	session_unset(); 
 	session_destroy();
+}
+
+//gets comments for a story data
+//id is story id
+//returns an array of comments
+function getComments($id){
+	global $mysqli;
+	$stmt = $mysqli->prepare("select comment_id, commenter_id, comments.story_id, comment, stories.title, stories.url, stories.poster_id, stories.commentary, users.user_id, users.user_name, users.first_name, users.last_name from comments join stories on (comments.story_id = stories.story_id) join users on (comments.commenter_id = users.user_id) where comments.story_id = ?");
+	if(!$stmt){
+		printf("Query Prep Failed: %s\n", $mysqli->error);
+		exit;
+	}
+	$stmt->bind_param('i', $id);
+	$stmt->execute();
+	
+	$comments = array();
+	$result = $stmt->get_result();
+	while($row = $result->fetch_assoc()){
+		array_push($comments, $row);
+	}	 
+	$stmt->close();	
+	return $comments;
 }
 ?>

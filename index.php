@@ -1,5 +1,6 @@
 <?php
 require 'includes/config.php';
+require 'includes/functions.php';
 session_start();
 if(!isset($_SESSION['username'])){
 	header("Location: login.php?error=4");
@@ -65,4 +66,4 @@ $stmt->close();
 ?>
 
 </body>
-<html>
+</html>
