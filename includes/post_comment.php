@@ -17,7 +17,7 @@ if(!$stmt){
  $stmt->execute();
  $stmt->close();
 
-header("Location: ../story.php?id=1");
+header("Location: ../story.php?id=" . $story_id);
 
 
 ?>
