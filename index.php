@@ -2,8 +2,9 @@
 require 'includes/config.php';
 require 'includes/functions.php';
 session_start();
+$loggedIn = true;
 if(!isset($_SESSION['username'])){
-	header("Location: login.php?error=4");
+	$loggedIn = false;
 }
 ?>
 <!DOCTYPE html>
@@ -15,20 +16,35 @@ if(!isset($_SESSION['username'])){
 </head>
 
 <body>
-    <a href="includes/logout.php">logout</a>
+    <?php if($loggedIn){
+		echo'<a href="includes/logout.php">logout</a>';
+	}else{
+		echo'<a href="login.php">log in or register</a>';
+	}
+	?>
     <br>
-    <div id="postBox">
-    	<h2>Post a New Story</h2>
-        <p id="sError"> </p>
-           <form action="includes/post_story.php" method="post">
-              <input type="text" name="title" id="sTitle" placeholder="Title" required>          
-              <input type="text" name="url" id="sUrl" placeholder="URL" required>          
-              <textarea name="commentary" id="sCommentary" placeholder="Commentary" required></textarea>
-              <input type="submit" value="post!" id="sSubmit">
-          </form>
-    </div>
+    <?php
+    if($loggedIn){
+		echo'
+		<div id="postBox">
+			<h2>Post a New Story</h2>
+			<p id="sError"> </p>
+			   <form action="includes/post_story.php" method="post">
+				  <input type="text" name="title" id="sTitle" placeholder="Title" required>          
+				  <input type="text" name="url" id="sUrl" placeholder="URL" required>          
+				  <textarea name="commentary" id="sCommentary" placeholder="Commentary" required></textarea>
+				  <input type="submit" value="post!" id="sSubmit">
+			  </form>
+		</div>';
+	}
+	?>
     <div id="stories">
         <?php
+			if(isset($_GET["error"])){
+				if($_GET["error"] == 1){
+					echo'<p>you must be logged in to do that!</p>';
+				}
+			}
 			$stories = query();
 			foreach($stories as $key => $value){
 				echo'
@@ -36,6 +52,7 @@ if(!isset($_SESSION['username'])){
 					<a class="title" href="' . htmlspecialchars( $value["url"] ) . '">' . htmlspecialchars( $value["title"] ) . '</a>
 					<div class="commentary">' . htmlspecialchars( $value["commentary"] ) . '</div>
 					<div class="bottomBar">
+						<a>' . htmlspecialchars( $value["user_name"] ) . '&nbsp;&nbsp;&nbsp;&nbsp;</a>
 						<a href="story.php?id=' . htmlspecialchars( $value["story_id"] ) . '">' . $value["comments_num"] . ' comments&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
 						<a href="includes/upvote.php?id=' . htmlspecialchars( $value["story_id"] ) . '">&#128077;</a>
 						<div class="votes">' . $value["vote"] . '</div>

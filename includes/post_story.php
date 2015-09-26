@@ -2,7 +2,9 @@
 require "config.php";
 require "functions.php";
 session_start();
-
+if(!isset($_SESSION['username'])){
+	header("Location: index.php");
+}
 $title = $_POST['title'];
 $url = $_POST['url'];
 $commentary = $_POST['commentary'];

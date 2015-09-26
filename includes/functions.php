@@ -3,7 +3,7 @@ require_once "config.php";
 //returns an array of stories with data
 function query(){
 	global $mysqli;
-	$stmt = $mysqli->prepare("select count(comments.comment_id) as comments_num, stories.* from stories left join comments on (comments.story_id = stories.story_id) group by stories.story_id");
+	$stmt = $mysqli->prepare("select count(comments.comment_id) as comments_num, stories.*, users.user_name from stories left join comments on (comments.story_id = stories.story_id) join users on (users.user_id = stories.poster_id) group by stories.story_id order by stories.vote desc");
 	if(!$stmt){
 			printf("Query Prep Failed: %s\n", $mysqli->error);
 			exit;
@@ -119,7 +119,23 @@ function getComments($id){
 	$stmt->close();	
 	return $comments;
 }
-
+//gets a comment
+//id is the comment id
+//returns an array with comment data
+function getComment($id){
+	global $mysqli;
+	$stmt = $mysqli->prepare("select * from comments where comment_id=?");
+	if(!$stmt){
+		printf("Query Prep Failed: %s\n", $mysqli->error);
+		exit;
+	}
+	$stmt->bind_param('i', $id);
+	$stmt->execute();
+	$result = $stmt->get_result();
+	$comment = $result->fetch_assoc();
+	$stmt->close();	
+	return $comment;
+}
 //downvotes a story
 //id is story id
 function downvote($id){
@@ -145,5 +161,43 @@ function upvote($id){
 	$stmt->bind_param('i', $id);
 	$stmt->execute();
 	$stmt->close();
+}
+//deletes a story
+//id is story id
+function deleteStory($id){
+	global $mysqli;
+	$stmt = $mysqli->prepare("delete from stories where story_id = ?");
+	if(!$stmt){
+		printf("Query Prep Failed: %s\n", $mysqli->error);
+		exit;
+	}
+	$stmt->bind_param('i', $id);
+	$stmt->execute();
+	$stmt->close();
+}
+//deletes a comment
+//id is story id
+function deleteComment($id){
+	global $mysqli;
+	$stmt = $mysqli->prepare("delete from comments where comment_id = ?");
+	if(!$stmt){
+		printf("Query Prep Failed: %s\n", $mysqli->error);
+		exit;
+	}
+	$stmt->bind_param('i', $id);
+	$stmt->execute();
+	$stmt->close();
+}
+//updates a story
+//id is story id
+//content is new content
+function updateStory($id, $content){
+	
+}
+//updates a comment
+//id is story id
+//content is new content
+function updateComment($id, $content){
+	
 }
 ?>
