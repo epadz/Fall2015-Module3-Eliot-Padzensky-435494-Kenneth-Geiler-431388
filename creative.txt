@@ -1,0 +1,11 @@
+Eliot Padzensky 435494
+Kenneth Geiler 431388
+
+http://ec2-52-88-111-193.us-west-2.compute.amazonaws.com/Fall2015-Module3-Eliot-Padzensky-435494-Kenneth-Geiler-431388/login.php
+http://ec2-52-88-111-193.us-west-2.compute.amazonaws.com/Fall2015-Module3-Eliot-Padzensky-435494-Kenneth-Geiler-431388/index.php
+
+Log in with username epadz password epadz or username batman password superman
+
+Creative elements:
+1)The CSS
+2)Voting
