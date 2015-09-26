@@ -1,7 +1,7 @@
 <?php
 require 'includes/config.php';
 require 'includes/functions.php';
-session_start();
+session_start();;
 if(!isset($_SESSION['username'])){
 	header("Location: login.php?error=4");
 }
@@ -25,5 +25,14 @@ $comments = getComments($story_ID);
 		echo '<p>'. $val['comment'] . '</p><br />';
 	}
 ?>
+
+<h2> Submit a comment </h2>
+<form action="includes/post_comment.php" method="post">
+  comment:<br>
+  <input type="text" name="comment">
+  <br>
+  <input type="submit" value="post!">
+</form>
+
 </body>
 </html>
