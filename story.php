@@ -22,14 +22,14 @@ $comments = getComments($story_ID);
 </head>
 
 <body>
+	<a href="index.php">go back</a>
     <div id="stories">
     	<?php
 		echo'
 			<div class="pstory" id="story_' . htmlspecialchars( $story["story_id"] ) . '">
 				<a class="title" href="' . htmlspecialchars( $story["url"] ) . '">' . htmlspecialchars( $story["title"] ) . '</a>
 				<div class="commentary">' . htmlspecialchars( $story["commentary"] ) . '</div>
-				<div class="bottomBar">
-					<a href="story.php?id=' . htmlspecialchars( $story["story_id"] ) . '">' . $story["comments_num"] . ' comments&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+				<div class="bottomBar">					
 					<a href="includes/upvote.php?id=' . htmlspecialchars( $story["story_id"] ) . '">&#128077;</a>
 					<div class="votes">' . $story["vote"] . '</div>
 					<a href="includes/downvote.php?id=' . htmlspecialchars( $story["story_id"] ) . '">&#128078;</a>
