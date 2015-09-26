@@ -39,9 +39,7 @@ $comments = getComments($story_ID);
 		<div class="story">
         	<div class="title">Leave a Comment</div>
             <form action="includes/post_comment.php?id=' . htmlspecialchars( $story["story_id"] ) . '" method="post">
-              comment:<br>
-              <input type="text" name="comment">
-              <br>
+              <textarea name="comment" id="sCommentary" placeholder="Comment" required></textarea>
               <input type="submit" value="post!">
             </form>
         </div>';		
