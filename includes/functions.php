@@ -26,7 +26,7 @@ function query(){
 
 function getStory($id){
 	global $mysqli;
-	$stmt = $mysqli->prepare("select title, url, poster_id, story_id, commentary, users.user_name from stories join users on (stories.poster_id = users.user_id) where story_id=?");
+	$stmt = $mysqli->prepare("select stories.*, users.user_name, count(comments.comment_id) as comments_num from stories join users on (stories.poster_id = users.user_id) left join comments on (stories.story_id = comments.story_id) where stories.story_id=? group by stories.story_id");
 	if(!$stmt){
 		printf("Query Prep Failed: %s\n", $mysqli->error);
 		exit;

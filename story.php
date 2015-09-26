@@ -10,31 +10,49 @@ if(!isset($_GET['id'])){
 }
 $story_ID = $_GET['id'];
 $story = getStory($story_ID);
+$title = $story["title"];
 $comments = getComments($story_ID);
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
+<title><?php echo $title; ?></title>
+<link href="includes/style.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
-<?php
-	echo 'User ' . $story['user_name'] . ' posted a link to <a href="' . $story['url'] . '">' . $story['title'] . '</a> and said:<br />' . $story['commentary'] . '<br />';
-	foreach($comments as $col => $val){
-		echo 'User ' . $val['user_name'] . ' says:<br />';
-		echo '<p>'. $val['comment'] . '</p><br />';
-	}
-?>
-
-<h2> Submit a comment </h2>
-<form action="includes/post_comment.php" method="post">
-  comment:<br>
-  <input type="text" name="comment">
-  <br>
-  <input type="submit" value="post!">
-</form>
-
+    <div id="stories">
+    	<?php
+		echo'
+			<div class="pstory" id="story_' . htmlspecialchars( $story["story_id"] ) . '">
+				<a class="title" href="' . htmlspecialchars( $story["url"] ) . '">' . htmlspecialchars( $story["title"] ) . '</a>
+				<div class="commentary">' . htmlspecialchars( $story["commentary"] ) . '</div>
+				<div class="bottomBar">
+					<a href="story.php?id=' . htmlspecialchars( $story["story_id"] ) . '">' . $story["comments_num"] . ' comments&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+					<a href="includes/upvote.php?id=' . htmlspecialchars( $story["story_id"] ) . '">&#128077;</a>
+					<div class="votes">' . $story["vote"] . '</div>
+					<a href="includes/downvote.php?id=' . htmlspecialchars( $story["story_id"] ) . '">&#128078;</a>
+				</div>
+			</div>';
+		echo'
+		<div class="story">
+        	<div class="title">Leave a Comment</div>
+            <form action="includes/post_comment.php?id=' . htmlspecialchars( $story["story_id"] ) . '" method="post">
+              comment:<br>
+              <input type="text" name="comment">
+              <br>
+              <input type="submit" value="post!">
+            </form>
+        </div>';		
+		
+		foreach($comments as $col => $val){
+			echo'<div class="story">
+				<div class="title">User ' . $val['user_name'] . ' says:</div>
+				<div class="commentary">'. $val['comment'] . '</div>
+			</div>';
+		}
+		?>
+    </div>
 </body>
 </html>
