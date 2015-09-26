@@ -10,38 +10,41 @@ if(!isset($_SESSION['username'])){
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
+<title>Story Feed</title>
+<link href="includes/style.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
-<?php
-	echo $_SESSION['uid'] . '<br />';
-	echo $_SESSION['username'] . '<br />';
-	echo $_SESSION['fname'] . '<br />';
-	echo $_SESSION['lname'] . '<br />';
-
-?>
-<br>
-<a href="includes/logout.php">logout</a>
-<br>
-<form action="includes/post_story.php" method="post">
-  title:<br>
-  <input type="text" name="title">
-  <br>
-  url:<br>
-  <input type="text" name="url">
-  <br>
-  commentary: <br>
-  <input type="text" name="commentary">
-  <input type="hidden" name="poster_id">
-  <input type="submit" value="post!">
-</form>
-
-<?php
-
-query();
- 
-?>
-
+    <a href="includes/logout.php">logout</a>
+    <br>
+    <div id="postBox">
+    	<h2>Post a New Story</h2>
+        <p id="sError"> </p>
+           <form action="includes/post_story.php" method="post">
+              <input type="text" name="title" id="sTitle" placeholder="Title" required>          
+              <input type="text" name="url" id="sUrl" placeholder="URL" required>          
+              <textarea name="commentary" id="sCommentary" placeholder="Commentary" required></textarea>
+              <input type="submit" value="post!" id="sSubmit">
+          </form>
+    </div>
+    <div id="stories">
+        <?php
+			$stories = query();
+			foreach($stories as $key => $value){
+				echo'
+				<div class="story" id="story_' . htmlspecialchars( $value["story_id"] ) . '">
+					<a class="title" href="' . htmlspecialchars( $value["url"] ) . '">' . htmlspecialchars( $value["title"] ) . '</a>
+					<div class="commentary">' . htmlspecialchars( $value["commentary"] ) . '</div>
+					<div class="bottomBar">
+						<a href="story.php?id=' . htmlspecialchars( $value["story_id"] ) . '">' . $value["comments_num"] . ' comments&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+						<a href="includes/upvote.php?id=' . htmlspecialchars( $value["story_id"] ) . '">&#128077;</a>
+						<div class="votes">' . $value["vote"] . '</div>
+						<a href="includes/downvote.php?id=' . htmlspecialchars( $value["story_id"] ) . '">&#128078;</a>
+					</div>
+				</div>
+				';
+			}
+		?>        
+    </div>
 </body>
 </html>

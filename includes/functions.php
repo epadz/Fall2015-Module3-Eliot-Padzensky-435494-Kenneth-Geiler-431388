@@ -1,36 +1,43 @@
 <?php
 require_once "config.php";
-
+//returns an array of stories with data
 function query(){
-global $mysqli;
-$stmt = $mysqli->prepare("select title, url, poster_id, commentary from stories");
-if(!$stmt){
-        printf("Query Prep Failed: %s\n", $mysqli->error);
-        exit;
+	global $mysqli;
+	$stmt = $mysqli->prepare("select count(comments.comment_id) as comments_num, stories.* from stories left join comments on (comments.story_id = stories.story_id) group by stories.story_id");
+	if(!$stmt){
+			printf("Query Prep Failed: %s\n", $mysqli->error);
+			exit;
+	}
+	
+	
+	$stmt->execute();
+	
+	$result = $stmt->get_result();
+	$stories = array();
+	while($row = $result->fetch_assoc()){
+			array_push($stories, $row);	
+	}	
+	$stmt->close();
+	return $stories;
 }
 
+//returns a specific story
+//id is story id
 
-$stmt->execute();
-
-$result = $stmt->get_result();
-
-echo "<ul>\n";
-while($row = $result->fetch_assoc()){
-        printf("\t<li>%s %s</li>\n",
-                htmlspecialchars( $row["title"] ),
-                htmlspecialchars( $row["url"] ),
-                htmlspecialchars( $row["commentary"] )
-        );
-        $pid = $row['poster_id'];
-        echo '<a href="story.php?id='. $pid .'" >Check out the article</a>';
-
+function getStory($id){
+	global $mysqli;
+	$stmt = $mysqli->prepare("select title, url, poster_id, story_id, commentary, users.user_name from stories join users on (stories.poster_id = users.user_id) where story_id=?");
+	if(!$stmt){
+		printf("Query Prep Failed: %s\n", $mysqli->error);
+		exit;
+	}
+	$stmt->bind_param('i', $id);
+	$stmt->execute();
+	$result = $stmt->get_result();
+	$story = $result->fetch_assoc();
+	$stmt->close();	
+	return $story;
 }
-echo "</ul>\n";
-
-$stmt->close();
-}
-
-
 //echo isUser('userGuy');
 //checks whether a given username exists
 //$u is username
@@ -111,5 +118,32 @@ function getComments($id){
 	}	 
 	$stmt->close();	
 	return $comments;
+}
+
+//downvotes a story
+//id is story id
+function downvote($id){
+	global $mysqli;
+	$stmt = $mysqli->prepare("update stories set vote = vote - 1 where story_id = ?");
+	if(!$stmt){
+		printf("Query Prep Failed: %s\n", $mysqli->error);
+		exit;
+	}
+	$stmt->bind_param('i', $id);
+	$stmt->execute();
+	$stmt->close();	
+}
+//upvotes a story
+//id is story id
+function upvote($id){
+	global $mysqli;
+	$stmt = $mysqli->prepare("update stories set vote = vote + 1 where story_id = ?");
+	if(!$stmt){
+		printf("Query Prep Failed: %s\n", $mysqli->error);
+		exit;
+	}
+	$stmt->bind_param('i', $id);
+	$stmt->execute();
+	$stmt->close();
 }
 ?>
