@@ -1,9 +1,9 @@
 <?php
 require_once "config.php";
-//returns a story
+//returns an array of stories with data
 function query(){
 	global $mysqli;
-	$stmt = $mysqli->prepare("select title, url, poster_id, commentary from stories");
+	$stmt = $mysqli->prepare("select * from stories");
 	if(!$stmt){
 			printf("Query Prep Failed: %s\n", $mysqli->error);
 			exit;
@@ -13,21 +13,12 @@ function query(){
 	$stmt->execute();
 	
 	$result = $stmt->get_result();
-	
-	echo "<ul>\n";
+	$stories = array();
 	while($row = $result->fetch_assoc()){
-			printf("\t<li>%s %s</li>\n",
-					htmlspecialchars( $row["title"] ),
-					htmlspecialchars( $row["url"] ),
-					htmlspecialchars( $row["commentary"] )
-			);
-			$pid = $row['poster_id'];
-			echo '<a href="story.php?id='. $pid .'" >Check out the article</a>';
-	
-	}
-	echo "</ul>\n";
-	
+			array_push($stories, $row);	
+	}	
 	$stmt->close();
+	return $stories;
 }
 
 //returns a specific story
@@ -127,5 +118,32 @@ function getComments($id){
 	}	 
 	$stmt->close();	
 	return $comments;
+}
+
+//downvotes a story
+//id is story id
+function downvote($id){
+	global $mysqli;
+	$stmt = $mysqli->prepare("update stories set vote = vote - 1 where story_id = ?");
+	if(!$stmt){
+		printf("Query Prep Failed: %s\n", $mysqli->error);
+		exit;
+	}
+	$stmt->bind_param('i', $id);
+	$stmt->execute();
+	$stmt->close();	
+}
+//upvotes a story
+//id is story id
+function upvote($id){
+	global $mysqli;
+	$stmt = $mysqli->prepare("update stories set vote = vote + 1 where story_id = ?");
+	if(!$stmt){
+		printf("Query Prep Failed: %s\n", $mysqli->error);
+		exit;
+	}
+	$stmt->bind_param('i', $id);
+	$stmt->execute();
+	$stmt->close();
 }
 ?>
