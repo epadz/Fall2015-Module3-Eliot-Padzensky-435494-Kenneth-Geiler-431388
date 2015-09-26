@@ -133,6 +133,20 @@ input{
 	padding:20px;
 	margin:10px 0 10px 0;
 }
+.pstory{
+	width:700px;
+	background-color:#0099FF;
+	border:2px solid #666;
+	border-radius:10px;
+	padding:20px;
+	margin:10px 0 10px 0;
+}
+.pstory .title{
+	color:#99FF66;
+}
+.pstory .bottomBar a, .pstory .bottomBar div{
+	color:#99FF66;
+}
 .title{
 	font-size:20px;
 	color:#0099FF;
