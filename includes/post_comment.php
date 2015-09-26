@@ -13,11 +13,11 @@ if(!$stmt){
     exit;
 }
 
- $stmt->bind_param('ssss', $commenter_id, $story_id, $comment);
+ $stmt->bind_param('iis', $commenter_id, $story_id, $comment);
  $stmt->execute();
  $stmt->close();
 
-header("Location: ../story.php?id=1");
+header("Location: ../story.php?id=" . $story_id);
 
 
 ?>
