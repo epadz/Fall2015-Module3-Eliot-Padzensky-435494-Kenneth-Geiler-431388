@@ -52,6 +52,7 @@ if(!isset($_SESSION['username'])){
 					<a class="title" href="' . htmlspecialchars( $value["url"] ) . '">' . htmlspecialchars( $value["title"] ) . '</a>
 					<div class="commentary">' . htmlspecialchars( $value["commentary"] ) . '</div>
 					<div class="bottomBar">
+						<a>' . htmlspecialchars( $value["user_name"] ) . '&nbsp;&nbsp;&nbsp;&nbsp;</a>
 						<a href="story.php?id=' . htmlspecialchars( $value["story_id"] ) . '">' . $value["comments_num"] . ' comments&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
 						<a href="includes/upvote.php?id=' . htmlspecialchars( $value["story_id"] ) . '">&#128077;</a>
 						<div class="votes">' . $value["vote"] . '</div>
