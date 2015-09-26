@@ -36,11 +36,11 @@ $comments = getComments($story_ID);
 				</div>
 			</div>';
 		echo'
-		<div class="story">
+		<div class="story" style="height:250px;">
         	<div class="title">Leave a Comment</div>
             <form action="includes/post_comment.php?id=' . htmlspecialchars( $story["story_id"] ) . '" method="post">
               <textarea name="comment" id="sCommentary" placeholder="Comment" required></textarea>
-              <input type="submit" value="post!">
+              <input type="submit" id="sSubmit" value="post!">
             </form>
         </div>';		
 		
