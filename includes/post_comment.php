@@ -2,7 +2,9 @@
 require "config.php";
 require "functions.php";
 session_start();
-
+if(!isset($_SESSION['username'])){
+	header("Location: index.php");
+}
 $commenter_id = $_SESSION['uid'];
 $story_id = $_GET['id'];
 $comment = $_POST['comment'];

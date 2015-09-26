@@ -3,7 +3,7 @@ require_once "config.php";
 //returns an array of stories with data
 function query(){
 	global $mysqli;
-	$stmt = $mysqli->prepare("select count(comments.comment_id) as comments_num, stories.* from stories left join comments on (comments.story_id = stories.story_id) group by stories.story_id");
+	$stmt = $mysqli->prepare("select count(comments.comment_id) as comments_num, stories.* from stories left join comments on (comments.story_id = stories.story_id) group by stories.story_id order by stories.vote desc");
 	if(!$stmt){
 			printf("Query Prep Failed: %s\n", $mysqli->error);
 			exit;

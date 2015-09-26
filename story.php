@@ -1,9 +1,10 @@
 <?php
 require 'includes/config.php';
 require 'includes/functions.php';
-session_start();;
+session_start();
+$loggedIn = true;;
 if(!isset($_SESSION['username'])){
-	header("Location: login.php?error=4");
+	$loggedIn = false;
 }
 if(!isset($_GET['id'])){
 	header("Location: index.php");
@@ -35,15 +36,16 @@ $comments = getComments($story_ID);
 					<a href="includes/downvote.php?id=' . htmlspecialchars( $story["story_id"] ) . '">&#128078;</a>
 				</div>
 			</div>';
-		echo'
-		<div class="story" style="height:250px;">
-        	<div class="title">Leave a Comment</div>
-            <form action="includes/post_comment.php?id=' . htmlspecialchars( $story["story_id"] ) . '" method="post">
-              <textarea name="comment" id="sCommentary" placeholder="Comment" required></textarea>
-              <input type="submit" id="sSubmit" value="post!">
-            </form>
-        </div>';		
-		
+		if($loggedIn){
+			echo'
+			<div class="story" style="height:250px;">
+				<div class="title">Leave a Comment</div>
+				<form action="includes/post_comment.php?id=' . htmlspecialchars( $story["story_id"] ) . '" method="post">
+				  <textarea name="comment" id="sCommentary" placeholder="Comment" required></textarea>
+				  <input type="submit" id="sSubmit" value="post!">
+				</form>
+			</div>';		
+		}
 		foreach($comments as $col => $val){
 			echo'<div class="story">
 				<div class="title">User ' . $val['user_name'] . ' says:</div>
