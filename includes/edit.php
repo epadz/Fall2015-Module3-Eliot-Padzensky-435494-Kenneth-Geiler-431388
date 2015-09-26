@@ -17,6 +17,8 @@ $action = $_GET['a'];
 $target = $_GET['t'];
 $origin = $_GET['o'];
 
+$content = '';
+
 if($action == 'd'){
 	if($target == 's'){
 		$story = getStory($item_ID);
@@ -39,6 +41,40 @@ if($action == 'd'){
 			exit;
 		}
 	}
+}else if($action == 'e'){
+	if(isset($_POST['content'])){
+		if($target == 's'){
+			$stmt = $mysqli->prepare("update stories set commentary = ? where story_id = ?");
+			if(!$stmt){
+				printf("Query Prep Failed: %s\n", $mysqli->error);
+				exit;
+			}
+			$stmt->bind_param('si', $_POST['content'], $item_ID);
+			$stmt->execute();
+			$stmt->close();
+			header("Location: ../story.php?id=" . $origin);
+			exit;
+		}else if($target == 'c'){
+			$stmt = $mysqli->prepare("update comments set comment = ? where comment_id = ?");
+			if(!$stmt){
+				printf("Query Prep Failed: %s\n", $mysqli->error);
+				exit;
+			}
+			$stmt->bind_param('si', $_POST['content'], $item_ID);
+			$stmt->execute();
+			$stmt->close();
+			header("Location: ../story.php?id=" . $origin);
+			exit;
+		}
+	}else{
+		if($target == 's'){
+			$story = getStory($item_ID);
+			$content = htmlspecialchars($story['commentary']);
+		}else if($target == 'c'){
+			$comment = getComment($item_ID);
+			$content = htmlspecialchars($comment['comment']);
+		}
+	}
 }
 ?>
 <!DOCTYPE html>
@@ -46,13 +82,15 @@ if($action == 'd'){
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Edit</title>
-<link href="includes/style.css" rel="stylesheet" type="text/css">
+<link href="style.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
-	<form>
-    	<textarea>
+	<form action="edit.php?a=e&t=<?php echo $target;?>&o=<?php echo $origin;?>&id=<?php echo $item_ID;?>" method="post">
+    	<textarea name="content" id="editing">
+        	<?php echo $content;?>
         </textarea>
+        <input type="submit" value="save"/>
     </form>
 </body>
 </html>

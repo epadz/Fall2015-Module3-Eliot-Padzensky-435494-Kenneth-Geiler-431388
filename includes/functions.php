@@ -188,4 +188,16 @@ function deleteComment($id){
 	$stmt->execute();
 	$stmt->close();
 }
+//updates a story
+//id is story id
+//content is new content
+function updateStory($id, $content){
+	
+}
+//updates a comment
+//id is story id
+//content is new content
+function updateComment($id, $content){
+	
+}
 ?>
