@@ -24,11 +24,17 @@ if(!isset($_SESSION['username'])){
 	?>
     <br>
     <?php
+	$emessage = '';
+	if(isset($_GET['error'])){
+		if($_GET['error'] == '2'){
+			$emessage = 'your URL must begin with "http://"';
+		}
+	}
     if($loggedIn){
 		echo'
 		<div id="postBox">
 			<h2>Post a New Story</h2>
-			<p id="sError"> </p>
+			<p id="sError">' . $emessage . '</p>
 			   <form action="includes/post_story.php" method="post">
 				  <input type="text" name="title" id="sTitle" placeholder="Title" required>          
 				  <input type="text" name="url" id="sUrl" placeholder="URL" required>          

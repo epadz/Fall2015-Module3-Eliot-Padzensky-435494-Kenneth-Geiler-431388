@@ -10,6 +10,10 @@ $url = $_POST['url'];
 $commentary = $_POST['commentary'];
 $poster_id = $_SESSION['uid'];
 
+if(strtolower(substr($url, 0, 7)) != 'http://'){
+	header("Location: ../index.php?error=2");
+	exit;
+}
 
 $stmt = $mysqli->prepare("insert into stories (title, url, commentary, poster_id) values (?, ?, ?, ?)");
 if(!$stmt){
