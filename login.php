@@ -8,8 +8,9 @@
 
 <body>
 	<div class="loginBox">
-    	<table>
+    	
         <form action="includes/checklogin.php" method="post" id="login_form">
+        <table>
             <tr><td colspan="2">log in</td></tr>
             <tr class="errorRow"><td colspan="2">
             	<?php
@@ -40,9 +41,12 @@
             	<td></td>
                 <td><input type="submit" value="go" /></td>
             </tr>           
-        </form>
+        
         <tr><td colspan="2"><hr /></td></tr>
+        </table>
+        </form>
         <form action="includes/register.php" method="post" id="login_form">
+        <table>
             <tr><td colspan="2">register</td></tr>
             <tr>
             	<td>first</td>
@@ -64,8 +68,9 @@
             	<td></td>
                 <td><input type="submit" value="go" /></td>
             </tr>
-        </form>
+        
         </table>
+        </form>
     </div>
 </body>
 </html>
